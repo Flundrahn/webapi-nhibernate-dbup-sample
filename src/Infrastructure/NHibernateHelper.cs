@@ -2,6 +2,7 @@
 using FluentNHibernate.Cfg.Db;
 using Infrastructure.Mappings;
 using NHibernate;
+using NHibernate.Driver;
 using NHibernate.Tool.hbm2ddl;
 using Shared;
 
@@ -33,7 +34,10 @@ internal class NHibernateHelper
 
     private FluentConfiguration CreateConfiguration()
     {
-        var databaseConfig = MsSqlConfiguration.MsSql2012.ConnectionString(_connectionString);
+        var databaseConfig = MsSqlConfiguration.MsSql2012
+            .ConnectionString(_connectionString)
+            .Driver<MicrosoftDataSqlClientDriver>(); 
+
         if (_isDevelopment)
         {
             databaseConfig = databaseConfig.ShowSql();
@@ -60,7 +64,7 @@ internal class NHibernateHelper
     {
         Configuration.ExposeConfiguration(cfg =>
         {
-            new SchemaExport(cfg).Create(true, true); // TODO: If use options pattern later, use that to only output to console in development
+            new SchemaExport(cfg).Create(true, true);
         });
     }
 }
