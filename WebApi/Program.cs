@@ -1,3 +1,4 @@
+using Infrastructure;
 using Shared;
 using Shared.Exceptions;
 using WebApi;
@@ -17,6 +18,7 @@ AppOptions appOptions = builder.Configuration.Get<AppOptions>()
     ?? throw new InvalidConfigurationException("Failed to bind AppOptions, please validate configuration of app.");
 
 builder.Services.Configure<AppOptions>(builder.Configuration)
+                .AddInfrastructure(appOptions)
                 .AddOpenApi()
                 .AddControllers();
 

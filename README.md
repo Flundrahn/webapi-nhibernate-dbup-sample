@@ -6,7 +6,7 @@ Note that is not the WebApi templates, but rather the different web apps.
 
 # ToDo
 [x] Add sample entity `Document`
-[ ] Add NHibernate and configure
+[x] Add NHibernate and configure
 [ ] Add AspNetCore.Identity
 [ ] Add NHibernate.AspNetCore.Identity
 [ ] Add identity endpoints
