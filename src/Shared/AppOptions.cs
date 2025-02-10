@@ -23,7 +23,6 @@ public class AppOptions
             _connectionString = value;
         }
     }
-    public bool ShouldExportSchema { get; set; }
     public string? Environment { get; set; }
     public bool IsDevelopment => Environment is null
         ? throw new InvalidConfigurationException("Environment name must be set to avoid ambiguity, check launchSettings.json.")

@@ -3,7 +3,6 @@ using FluentNHibernate.Cfg.Db;
 using Infrastructure.Mappings;
 using NHibernate;
 using NHibernate.Driver;
-using NHibernate.Tool.hbm2ddl;
 using Shared;
 
 namespace Infrastructure;
@@ -15,7 +14,6 @@ internal class NHibernateHelper
 {
     private readonly string _connectionString;
     private readonly bool _isDevelopment;
-    private readonly bool _shouldExportSchema;
 
     internal FluentConfiguration Configuration { get; }
 
@@ -28,7 +26,6 @@ internal class NHibernateHelper
 
         _connectionString = appOptions.ConnectionString;
         _isDevelopment = appOptions.IsDevelopment;
-        _shouldExportSchema = appOptions.ShouldExportSchema;
         Configuration = CreateConfiguration();
     }
 
@@ -36,7 +33,7 @@ internal class NHibernateHelper
     {
         var databaseConfig = MsSqlConfiguration.MsSql2012
             .ConnectionString(_connectionString)
-            .Driver<MicrosoftDataSqlClientDriver>(); 
+            .Driver<MicrosoftDataSqlClientDriver>();
 
         if (_isDevelopment)
         {
@@ -52,19 +49,6 @@ internal class NHibernateHelper
 
     internal ISessionFactory CreateSessionFactory()
     {
-        if (_shouldExportSchema)
-        {
-            ExportSchema();
-        }
-
         return Configuration.BuildSessionFactory();
-    }
-
-    internal void ExportSchema()
-    {
-        Configuration.ExposeConfiguration(cfg =>
-        {
-            new SchemaExport(cfg).Create(true, true);
-        });
     }
 }
