@@ -7,9 +7,13 @@ public class AppOptions
     private string? _connectionString;
     public string ConnectionString
     {
-        get => string.IsNullOrWhiteSpace(_connectionString)
+        get
+        {
+            return string.IsNullOrWhiteSpace(_connectionString)
                 ? throw new InvalidConfigurationException("ConnectionString is missing.")
                 : _connectionString;
+        }
+
         set
         {
             if (string.IsNullOrWhiteSpace(value))

@@ -1,0 +1,5 @@
+﻿CREATE TABLE Documents (
+    Id INT PRIMARY KEY,
+    Name NVARCHAR(255) NOT NULL,
+    CreateDate DATETIMEOFFSET NOT NULL
+);
