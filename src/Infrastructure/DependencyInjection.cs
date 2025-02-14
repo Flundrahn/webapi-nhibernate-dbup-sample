@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Domain.Repositories;
+using Infrastructure.Repositories;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using NHibernate;
 using Shared;
@@ -15,7 +17,9 @@ public static class DependencyInjection
             var nhibernateHelper = new NHibernateHelper(appOptions);
             return nhibernateHelper.CreateSessionFactory();
         });
-        services.AddScoped(sp => sp.GetRequiredService<ISessionFactory>().OpenSession());
+
+        services.AddScoped(sp => sp.GetRequiredService<ISessionFactory>().OpenSession())
+                .AddTransient<IDocumentRepository, DocumentRepository>();
 
         return services;
     }

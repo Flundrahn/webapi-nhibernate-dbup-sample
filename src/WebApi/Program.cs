@@ -31,6 +31,7 @@ if (appOptions.IsDevelopment)
     app.UseSwaggerUI(o => o.SwaggerEndpoint(WebApiConstants.OpenApiJsonRoute, "WebApi"));
 }
 
+app.UseHsts();
 app.UseHttpsRedirection();
 app.MapControllers();
 app.Run();

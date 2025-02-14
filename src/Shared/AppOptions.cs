@@ -27,4 +27,5 @@ public class AppOptions
     public bool IsDevelopment => Environment is null
         ? throw new InvalidConfigurationException("Environment name must be set to avoid ambiguity, check launchSettings.json.")
         : string.Equals(Environment, "Development", StringComparison.OrdinalIgnoreCase);
+    public bool ShouldExportDatabaseSchema { get; set; }
 }
