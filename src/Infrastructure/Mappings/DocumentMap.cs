@@ -7,8 +7,8 @@ public class DocumentMap : ClassMap<Document>
 {
     public DocumentMap()
     {
-        Id(x => x.Id);
-        Map(x => x.Name);
-        Map(x => x.CreateDate);
+        Id(x => x.Id).GeneratedBy.Identity();
+        Map(x => x.Name).Length(255).Not.Nullable();
+        Map(x => x.CreateDate).Not.Nullable();
     }
 }

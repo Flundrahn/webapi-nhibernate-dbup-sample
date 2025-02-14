@@ -8,9 +8,11 @@ public class AppOptions
     {
         get
         {
-            return string.IsNullOrWhiteSpace(_connectionString)
-                ? throw new InvalidOperationException("ConnectionString is missing.")
-                : _connectionString;
+            if (string.IsNullOrWhiteSpace(_connectionString))
+            {
+                throw new InvalidOperationException("ConnectionString is missing.");
+            }
+            return _connectionString;
         }
 
         set
@@ -30,7 +32,7 @@ internal class AppConfiguration
 {
     private static string EnvironmentName
     {
-        get => Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") 
+        get => Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")
             ?? throw new InvalidOperationException("Environment name must be set to avoid ambiguity.");
     }
 
