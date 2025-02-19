@@ -1,0 +1,6 @@
+{
+  "SpecificSection": {
+    "AlwaysRollback": false,
+    "ShouldSeedDatabase": false
+  }
+}

@@ -25,12 +25,22 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <None Remove="database-tools-appsettings.json" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<Content Include="..\WebApi\appsettings.json">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Content>
 		<Content Include="..\WebApi\appsettings.Development.json" Condition="Exists('..\WebApi\appsettings.Development.json')">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 			<CopyToPublishDirectory>never</CopyToPublishDirectory>
+		</Content>
+		<Content Include="database-tools-appsettings.Development.json" Condition="Exists('..\WebApi\appsettings.Development.json')">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="database-tools-appsettings.json">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Content>
 	</ItemGroup>
 

@@ -4,17 +4,23 @@ using DbUp.Builder;
 using DbUp.Engine;
 using DbUp.Support;
 
-AppOptions appOptions = AppConfiguration.Build();
+(WebApiOptions webApiOptions, DatabaseToolsOptions databaseToolsOptions) = AppConfiguration.Build();
 
 UpgradeEngineBuilder builder = DeployChanges.To
-    .SqlDatabase(appOptions.ConnectionString)
+    .SqlDatabase(webApiOptions.ConnectionString)
+    .LogToConsole()
     .WithScriptsFromFileSystem("scripts\\migrations",
                                new SqlScriptOptions { ScriptType = ScriptType.RunOnce, RunGroupOrder = 1 })
     .WithScriptsFromFileSystem("scripts\\stored-procedures",
-                               new SqlScriptOptions { ScriptType = ScriptType.RunAlways, RunGroupOrder = 2 })
-    .LogToConsole();
+                               new SqlScriptOptions { ScriptType = ScriptType.RunAlways, RunGroupOrder = 2 });
 
-if (appOptions.AlwaysRollback)
+if (databaseToolsOptions.ShouldSeedDatabase)
+{
+    builder.WithScriptsFromFileSystem("scripts\\seed-data",
+                                      new SqlScriptOptions { ScriptType = ScriptType.RunAlways, RunGroupOrder = 3 });
+}
+
+if (databaseToolsOptions.AlwaysRollback)
 {
     builder = builder.WithTransactionAlwaysRollback();
 }
