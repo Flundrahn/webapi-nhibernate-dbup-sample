@@ -1,29 +1,37 @@
-# Introduction
+# 
 
-The point of doing this project was to learn how to use AspNetCore.Identity with NHibernate.AspNetCore.Identity so can use that instead of the EntityFramework identity stores that are added in the template.
+Small sample project to experiment with `DbUp`, `FluentNHibernate`, `Microsoft.Extensions.Configuration`.
+There are two apps, an ASP.NET Core WebApi and a DbUp console project called DatabaseTools to manage the database migrations and more.
+The appsettings.json file in the WebApi project is used in both WebApi and DatabaseTools, connection string only needs to be configured in one place.
+The different settings jsons will bind to strongly typed configuration classes in respective projects.
+Another interesting thing is using FluentNHibernate to map the entity instead of hbm.xml:s, see `DocumentMap.cs`.
 
-Note that is not the WebApi templates, but rather the different web apps.
+## Prerequisites
 
-# ToDo
-[x] Add sample entity `Document`
-[x] Add NHibernate and configure
-[ ] Add AspNetCore.Identity
-[ ] Add NHibernate.AspNetCore.Identity
-[ ] Add identity endpoints
+- .NET 9 SDK
+- SQL Server
 
-## Authentication and Identity
-Corresponding if using Entity Framework would be in `Program.cs`:
-```csharp
+## Installation
 
-builder.Services.AddDbContext<ApplicationDbContext>(
-    options => options.UseInMemoryDatabase("AppDb"));
+1. Create a database in SQL Server, see connectionstring default in `src/WebApi/appsettings.json/`
+2. Build and run DatabaseTools to create database schema:
 
-builder.Services.AddAuthorization();
+- Optionally create local settings file `database-tools-appsettings.Development.json` and set ShouldSeedDatabase to true to add some test data.
 
-builder.Services.AddIdentityApiEndpoints<IdentityUser>()
-    .AddEntityFrameworkStores<ApplicationDbContext>();
-
-app.MapIdentityApi<IdentityUser>();
+```sh
+ dotnet run --project .\src\DatabaseTools\
 ```
 
+3. Build and run WebApi project
 
+```sh
+dotnet run --project .\src\WebApi\ --launch-profile https
+```
+
+4. Browse to `https://localhost:7291/swagger` (default applicationUrl, see `launchSettings.json`) to test the API.
+
+## NHibernate ExportSchema
+
+It is also possible to set `ShouldExportDatabaseSchema` to true in `appsettings.json` to generate the DB schema.
+This will cause NHibernate to drop any existing tables for mapped entities and recreate them using configured mappings.
+It could be a convenient way to test if the mapping matches with the table created using migrations.

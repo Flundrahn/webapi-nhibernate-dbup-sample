@@ -13,6 +13,10 @@ public static class DependencyInjection
     {
         services.AddSingleton(sp =>
         {
+            // This will return an instance of AppOptions that will work as a singleton, if file changes through app lifetime it will not affect this instance.
+            // If GetRequiredService is called within a request scope it would be possible to call
+            // var appOptions = sp.GetRequiredService<IOptionsSnapshot<AppOptions>>().Value;
+            // to fetch an instance of the options that will bind values when it is first accessed, app config could be changed without restart.
             var appOptions = sp.GetRequiredService<IOptions<AppOptions>>().Value;
             var nhibernateHelper = new NHibernateHelper(appOptions);
             return nhibernateHelper.CreateSessionFactory();
