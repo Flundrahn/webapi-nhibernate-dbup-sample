@@ -1,1 +1,1 @@
-﻿exec sp_rename 'dbo.Documents', 'dbo.Document';
+﻿exec sp_rename 'dbo.Documents', 'Document';
