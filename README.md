@@ -1,10 +1,10 @@
-# 
+# webapi-nhibernate-dbup-sample
 
 Small sample project to experiment with `DbUp`, `FluentNHibernate`, `Microsoft.Extensions.Configuration`.
 There are two apps, an ASP.NET Core WebApi and a DbUp console project called DatabaseTools to manage the database migrations and more.
 The appsettings.json file in the WebApi project is used in both WebApi and DatabaseTools, connection string only needs to be configured in one place.
-The different settings jsons will bind to strongly typed configuration classes in respective projects.
-Another interesting thing is using FluentNHibernate to map the entity instead of hbm.xml:s, see `DocumentMap.cs`.
+The different settings jsons will bind to strongly typed configuration classes in respective projects. See [MS Docs Options pattern in .NET](https://learn.microsoft.com/en-us/dotnet/core/extensions/options) to learn more.
+Another nice thing was using FluentNHibernate to map the entity instead of hbm.xml:s, see `DocumentMap.cs`.
 
 ## Prerequisites
 
@@ -13,22 +13,29 @@ Another interesting thing is using FluentNHibernate to map the entity instead of
 
 ## Installation
 
-1. Create a database in SQL Server, see connectionstring default in `src/WebApi/appsettings.json/`
-2. Build and run DatabaseTools to create database schema:
+1. Clone the repo
+
+```sh
+git clone https:/github.com/Flundrahn/webapi-nhibernate-dbup-sample.git
+cd .webapi-nhibernate-dbup-sample/
+```
+
+3. Create a database in SQL Server, see connectionstring default in `srcWebApi/appsettings.json/`
+4. Build and run DatabaseTools to create database schema:
 
 - Optionally create local settings file `database-tools-appsettings.Development.json` and set ShouldSeedDatabase to true to add some test data.
 
 ```sh
- dotnet run --project .\src\DatabaseTools\
+ dotnet run --project ./src/DatabaseTools/
 ```
 
 3. Build and run WebApi project
 
 ```sh
-dotnet run --project .\src\WebApi\ --launch-profile https
+dotnet run --project ./src/WebApi/ --launch-profile https
 ```
 
-4. Browse to `https://localhost:7291/swagger` (default applicationUrl, see `launchSettings.json`) to test the API.
+4. Browse to `https:/localhost:7291/swagger` (default applicationUrl, see `launchSettings.json`) to test the API.
 
 ## NHibernate ExportSchema
 
